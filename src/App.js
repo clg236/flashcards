@@ -2,34 +2,19 @@ import React, { Component } from 'react';
 import './App.css';
 import Card from './Components/Card/Card'
 import Button from './Components/Button/Button';
-import { firebase_config } from './Firebase';
-import firebase from 'firebase/app';
-import 'firebase/database';
+import Firebase from './Firebase/firebase_config';
 
 class App extends Component {
   constructor(props) {
     super(props)
 
     //firebase connection 
-    this.app = firebase.initializeApp(firebase_config);
-    this.database = this.app.database().ref().child('cards');
+    this.database = Firebase.database().ref().child('cards');
     
     this.newCard = this.newCard.bind(this);
 
-
     this.state ={
-      cards: [
-        {
-          english: 'To Be',
-          hanzi: '是',
-          pinyin: 'shi'
-        },
-        {
-          english: 'Man',
-          hanzi: '人',
-          pinyin: 'ren'
-        },
-      ],
+      cards: [],
       currentCard: {}
     };
   }
@@ -37,10 +22,20 @@ class App extends Component {
   componentWillMount() {
     const currentCard = this.state.cards;
     
-    this.setState({
-      cards: currentCard,
-      currentCard: this.randomCard(currentCard)
+    this.database.on('child_added', snap => {
+      currentCard.push({
+        id: snap.key,
+        english: snap.val().english,
+        hanzi: snap.val().hanzi,
+        pinyin: snap.val().pinyin
+      });
+      this.setState({
+        cards: currentCard,
+        currentCard: this.randomCard(currentCard)
+      });
     });
+
+    
   }
 
   randomCard(currentCard) {
