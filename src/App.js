@@ -37,15 +37,6 @@ class App extends Component {
         currentCard: this.randomCard(currentCard)
       });
     });
-
-    // this.database.once('value').then((snapshot) => {
-    //   console.log(snapshot.val());
-    //   this.setState({
-    //     cards: snapshot.val()
-    //   });
-    // });
-
-    // console.log("current card: " + currentCard);
   }
 
   randomCard(currentCard) {
@@ -64,12 +55,16 @@ class App extends Component {
   render() {
     return (
      <div className="App">
+     <div className="cardRow">
        <Card 
         english={this.state.currentCard.english}
         hanzi={this.state.currentCard.hanzi}
         pinyin={this.state.currentCard.pinyin}
         />
+        </div>
+        <div className="buttonRow">
         <Button handleButtonClick={this.newCard}/>
+        </div>
      </div>
 
     );
