@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './Card.css';
 
+
+//https://www.w3schools.com/howto/howto_css_flip_card.asp
 const Card = (props) => (
     <div className="card-container">
         <div className="card">

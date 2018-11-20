@@ -15,7 +15,11 @@ class App extends Component {
 
     this.state ={
       cards: [],
-      currentCard: {}
+      currentCard: {
+        english: 'Yo',
+        hanzi: 'Yooo',
+        pinyin: 'Yoooo',
+      }
     };
   }
 
@@ -24,10 +28,9 @@ class App extends Component {
     
     this.database.on('child_added', snap => {
       currentCard.push({
-        id: snap.key,
-        english: snap.val().english,
-        hanzi: snap.val().hanzi,
-        pinyin: snap.val().pinyin
+        english: snap.val().eng,
+        hanzi: snap.val().han,
+        pinyin: snap.val().pin
       });
       this.setState({
         cards: currentCard,
@@ -35,7 +38,14 @@ class App extends Component {
       });
     });
 
-    
+    // this.database.once('value').then((snapshot) => {
+    //   console.log(snapshot.val());
+    //   this.setState({
+    //     cards: snapshot.val()
+    //   });
+    // });
+
+    // console.log("current card: " + currentCard);
   }
 
   randomCard(currentCard) {
